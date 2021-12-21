@@ -3,6 +3,7 @@ package com.hendisantika.controller;
 import com.hendisantika.dto.UserRegistrationDTO;
 import com.hendisantika.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -28,5 +29,10 @@ public class UserRegistrationController {
     @ModelAttribute("user")
     public UserRegistrationDTO returnNewUserRegistrationDTO() {
         return new UserRegistrationDTO();
+    }
+
+    @GetMapping
+    public String showRegisterForm() {
+        return "register";
     }
 }
