@@ -5,12 +5,17 @@ import com.hendisantika.model.Role;
 import com.hendisantika.model.User;
 import com.hendisantika.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by IntelliJ IDEA.
@@ -45,6 +50,15 @@ public class UserService {
         if (user == null) {
             throw new UsernameNotFoundException("Invalid username or password");
         }
-        return new User(user.getEmail(), user.getPassword(), mapearAutoridadesRoles(user.getRoles()));
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+                mapAuthoritiesRoles(user.getRoles()));
+    }
+
+    private Collection<? extends GrantedAuthority> mapAuthoritiesRoles(java.util.Collection<Role> roles) {
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+    }
+
+    public List<User> listUsers() {
+        return userRepository.findAll();
     }
 }
