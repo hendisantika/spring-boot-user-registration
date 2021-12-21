@@ -5,6 +5,7 @@ import com.hendisantika.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -34,5 +35,11 @@ public class UserRegistrationController {
     @GetMapping
     public String showRegisterForm() {
         return "register";
+    }
+
+    @PostMapping
+    public String registerUserAccount(@ModelAttribute("user") UserRegistrationDTO userRegistrationDTO) {
+        userService.save(userRegistrationDTO);
+        return "redirect:/register?exit";
     }
 }
