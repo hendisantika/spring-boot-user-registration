@@ -1,9 +1,14 @@
 package com.hendisantika.service;
 
+import com.hendisantika.dto.UserRegistrationDTO;
+import com.hendisantika.model.Role;
+import com.hendisantika.model.User;
 import com.hendisantika.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,5 +29,12 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         super();
         this.userRepository = userRepository;
+    }
+
+    public User save(UserRegistrationDTO registerDTO) {
+        User user = new User(registerDTO.getFirstname(),
+                registerDTO.getLastname(), registerDTO.getEmail(),
+                passwordEncoder.encode(registerDTO.getPassword()), Arrays.asList(new Role("ROLE_USER")));
+        return userRepository.save(user);
     }
 }
