@@ -5,6 +5,8 @@ import com.hendisantika.model.Role;
 import com.hendisantika.model.User;
 import com.hendisantika.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,5 +38,13 @@ public class UserService {
                 registerDTO.getLastname(), registerDTO.getEmail(),
                 passwordEncoder.encode(registerDTO.getPassword()), Arrays.asList(new Role("ROLE_USER")));
         return userRepository.save(user);
+    }
+
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("Invalid username or password");
+        }
+        return new User(user.getEmail(), user.getPassword(), mapearAutoridadesRoles(user.getRoles()));
     }
 }
