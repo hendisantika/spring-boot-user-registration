@@ -39,7 +39,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <div th:if=${param.exito}>
+            <div th:if=${param.exit}>
                 <div class="alert alert-info">You have successfully registered to the application</div>
             </div>
 
@@ -70,7 +70,7 @@
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success">Registrar</button>
+                    <button class="btn btn-success" type="submit">Register</button>
                     <span>If you are registered <a th:href="@{/login}">log in here</a></span>
                 </div>
             </form>

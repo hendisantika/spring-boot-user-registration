@@ -9,13 +9,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,7 +30,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository) {
         super();
@@ -42,7 +41,7 @@ public class UserServiceImpl implements UserService {
     public User save(UserRegistrationDTO registerDTO) {
         User user = new User(registerDTO.getFirstname(),
                 registerDTO.getLastname(), registerDTO.getEmail(),
-                passwordEncoder.encode(registerDTO.getPassword()), Arrays.asList(new Role("ROLE_USER")));
+                passwordEncoder.encode(registerDTO.getPassword()), List.of(new Role("ROLE_USER")));
         return userRepository.save(user);
     }
 
@@ -57,7 +56,12 @@ public class UserServiceImpl implements UserService {
     }
 
     private Collection<? extends GrantedAuthority> mapAuthoritiesRoles(java.util.Collection<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+        List<SimpleGrantedAuthority> list = new ArrayList<>();
+        for (Role role : roles) {
+            SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(role.getName());
+            list.add(simpleGrantedAuthority);
+        }
+        return list;
     }
 
     @Override

@@ -1,12 +1,12 @@
 package com.hendisantika.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,6 +17,7 @@ import javax.persistence.Id;
  * Date: 21/12/21
  * Time: 07.41
  */
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
