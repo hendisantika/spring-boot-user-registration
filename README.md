@@ -21,7 +21,7 @@ Login Page
 
 List All users Page
 
-![List All users Page](img/list.png "List All users Page)
+![List All users Page](img/list.png "List All users Page")
 
 Logout Page
 
